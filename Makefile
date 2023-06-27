@@ -1,7 +1,7 @@
 NAME = minitalk
 CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I $(LIBFT_PATH)
-LDFLAGS = -L $(LIBFT_PATH)
+LDFLAGS = -L $(LIBFT_PATH) -l $(LIBFT)
 SERVER_SRC = server.c
 CLIENT_SRC = client.c
 LIBFT = ft
@@ -26,7 +26,7 @@ clean:
 
 fclean: clean
 	make -C $(LIBFT_PATH) fclean
-	$(RM) $(NAME)
+	$(RM) server client
 
 re: fclean all
 
