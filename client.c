@@ -1,32 +1,45 @@
 #include "minitalk.h"
 
-// SIGUSR1 is 0 and SIGUSR2 is 1
 static void    send_char(pid_t pid, unsigned char  c)
 {
-    int             bit;
-    int             i;
+    unsigned char   mask;
 
-    i = 0;
-    while (i < 8)
+    mask = 0b10000000;
+    while (mask)
     {
-        usleep(1000);
-        bit = (c >> i) & 0b00000001;
-        if (kill(pid, SIGUSR1 + bit) == -1)
-            return;
-        i++;
+        usleep(50);
+        if (mask & c)
+        {
+            if (kill(pid, SIGUSR1) < 0)
+                return;
+        }
+        else
+        {
+            if (kill(pid, SIGUSR2) < 0)
+                return;
+        }
+        mask >>= 1;
     }
+}
+
+static void send_str(pid_t pid, char *c)
+{
+    size_t  index;
+    size_t  len;
+
+    index = 0;
+    len = ft_strlen(c);
+    while (index++ < len)
+        send_char(pid, c[index]);
 }
 
 int main(int argc, char **argv)
 {
     if (argc != 3)
     {
-        ft_printf("Usage: ./client {pid} {string}\n");
+        ft_printf("Usage: ./client {pid} {message}\n");
         return (0);
     }
-    while (*argv[2]++)
-    {
-        send_char((pid_t)ft_atoi(argv[1]), *argv[2]);
-    }
+    send_str((pid_t)ft_atoi(argv[1]), argv[2]);
     return 0;
 }

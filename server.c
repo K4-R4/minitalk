@@ -2,21 +2,21 @@
 
 volatile sig_atomic_t bit;
 
-void handler(int sig, siginfo_t *info, void *ucon)
+void handler(int sig, siginfo_t *info, void *con)
 {
+    static int bit = -1;
+    static unsigned char c;
+
     (void)info;
-    (void)ucon;
-    // static volatile sig_atomic_t c;
-    static char c;
-    if (sig == SIGUSR2)
-        c = (c << 1) | 1;
-    else
-        c = (c << 1);
-    bit++;
-    if (bit == 8)
+    (void)con;
+    if (bit < 0)
+        bit = 7;
+    if (sig == SIGUSR1)
+        c |= (1 << bit);
+    bit--;
+    if (bit < 0 && c)
     {
-        write(STDOUT_FILENO, (const void *)(&c), 1);
-        bit = 0;
+        ft_putchar_fd(c, STDOUT_FILENO);
         c = 0;
     }
 }
