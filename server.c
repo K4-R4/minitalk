@@ -4,19 +4,18 @@ volatile sig_atomic_t bit;
 
 void handler(int sig, siginfo_t *info, void *con)
 {
-    static int bit = -1;
+    static unsigned char mask = 0b10000000;
     static unsigned char c;
 
     (void)info;
     (void)con;
-    if (bit < 0)
-        bit = 7;
     if (sig == SIGUSR1)
-        c |= (1 << bit);
-    bit--;
-    if (bit < 0 && c)
+        c |= mask;
+    mask >>= 1;
+    if (mask <= 0)
     {
         ft_putchar_fd(c, STDOUT_FILENO);
+        mask = 0b10000000;
         c = 0;
     }
 }
