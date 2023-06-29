@@ -29,7 +29,7 @@ $(CLIENT): $(CLIENT_OBJ)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(RM) $(OBJS)
+	$(RM) $(SERVER_OBJ) $(CLIENT_OBJ)
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean

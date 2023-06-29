@@ -21,7 +21,7 @@ void handler(int sig, siginfo_t *client, void *con)
     }
     else if (mask <= 0 && !c)
     {
-        kill(client->si_pid, SIGUSR1);
+        // kill(client->si_pid, SIGUSR1);
         return ;
     }
     kill(client->si_pid, SIGUSR2);
