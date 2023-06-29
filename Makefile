@@ -1,39 +1,39 @@
 NAME = minitalk
 CFLAGS = -Wall -Wextra -Werror
-<<<<<<< HEAD
-INCLUDE = -I $(LIBFT_DIR)/include
-LDFLAGS = -L $(LIBFT_DIR) -l ft
 SERVER = server
 CLIENT = client
-=======
-INCLUDE = -I $(LIBFT_PATH)
-LDFLAGS = -L $(LIBFT_PATH) -l $(LIBFT)
->>>>>>> 2f270b3c8c55fee64af615d4d66cd9e2b061036e
+INCLUDE = -I $(LIBFT_DIR)
+LDFLAGS = -L $(LIBFT_DIR) -l $(LIBFT)
 SERVER_SRC = server.c
+SERVER_OBJ = $(SERVER_SRC:.c=.o)
 CLIENT_SRC = client.c
-LIBFT_DIR = ./libft
-LIBFT = ./libft/libft.a
+CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
+LIBFT_DIR = libft
+LIBFT = ft
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(SERVER) $(CLIENT)
-
-$(LIBFT):
+$(NAME):
 	$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) $(SERVER)
+	$(MAKE) $(CLIENT)
 
-$(SERVER):
-	$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) $(SERVER_SRC) -o $@
+$(SERVER): $(SERVER_OBJ)
+	$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) $(SERVER_OBJ) -o $@
 
-$(CLIENT):
-	$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) $(CLIENT_SRC) -o $@
+$(CLIENT): $(CLIENT_OBJ)
+	$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) $(CLIENT_OBJ) -o $@
+
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
 
 fclean: clean
-	make -C $(LIBFT_PATH) fclean
-	$(RM) server client
+	make -C $(LIBFT_DIR) fclean
+	$(RM) $(SERVER) $(CLIENT)
 
 re: fclean all
 

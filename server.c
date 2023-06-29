@@ -1,4 +1,6 @@
+#include "libft/include/ft_printf.h"
 #include "minitalk.h"
+#include <unistd.h>
 
 volatile sig_atomic_t bit;
 
@@ -29,6 +31,7 @@ int main()
 {
     struct sigaction    act;
 
+	ft_printf("PID: %d\n", getpid());
     ft_bzero(&act, sizeof(struct sigaction));
     act.sa_sigaction = handler;
     sigemptyset(&act.sa_mask);
