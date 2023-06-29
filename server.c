@@ -2,8 +2,6 @@
 #include "minitalk.h"
 #include <unistd.h>
 
-volatile sig_atomic_t bit;
-
 void handler(int sig, siginfo_t *client, void *con)
 {
     static unsigned char mask = 0b10000000;
@@ -19,12 +17,7 @@ void handler(int sig, siginfo_t *client, void *con)
         mask = 0b10000000;
         c = 0;
     }
-    else if (mask <= 0 && !c)
-    {
-        // kill(client->si_pid, SIGUSR1);
-        return ;
-    }
-    kill(client->si_pid, SIGUSR2);
+    kill(client->si_pid, SIGUSR1);
 }
 
 int main()

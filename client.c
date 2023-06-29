@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-static volatile sig_atomic_t received;
+static int received;
 
 static void    send_char(pid_t pid, unsigned char  c)
 {
@@ -21,8 +21,9 @@ static void    send_char(pid_t pid, unsigned char  c)
                 return;
         }
         mask >>= 1;
-        while (!(received == BIT_RECEIVED || received == MESSAGE_RECEIVED))
+        while (!(received == BIT_RECEIVED))
             pause();
+		usleep(50);
     }
 }
 
@@ -33,9 +34,11 @@ static void send_str(pid_t pid, char *c)
 
     index = 0;
     len = ft_strlen(c);
-    while (index++ < len)
+    while (index < len)
+	{
         send_char(pid, c[index]);
-    send_char(pid, 0);
+		index++;
+	}
 }
 
 static void handler(int signal, siginfo_t *server, void *con)
@@ -44,8 +47,6 @@ static void handler(int signal, siginfo_t *server, void *con)
     (void)con;
     if (signal == SIGUSR1)
         received = BIT_RECEIVED;
-    else if (signal == SIGUSR2)
-        received = MESSAGE_RECEIVED;
 }
 
 int main(int argc, char **argv)
@@ -64,7 +65,5 @@ int main(int argc, char **argv)
     sigaction(SIGUSR1, &act, NULL);
     sigaction(SIGUSR2, &act, NULL);
     send_str((pid_t)ft_atoi(argv[1]), argv[2]);
-    if (received == MESSAGE_RECEIVED)
-        ft_printf("The server acknowledged your message.\n");
     return 0;
 }
