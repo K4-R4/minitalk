@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/06/29 19:31:55 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:35:44 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	g_received;
 
-static void		send_char(pid_t pid, unsigned char  c)
+static void	send_char(pid_t pid, unsigned char c)
 {
 	unsigned char	mask;
 
@@ -39,7 +39,7 @@ static void		send_char(pid_t pid, unsigned char  c)
 	}
 }
 
-static void		send_str(pid_t pid, char *c)
+static void	send_str(pid_t pid, char *c)
 {
 	size_t	index;
 	size_t	len;
@@ -53,7 +53,7 @@ static void		send_str(pid_t pid, char *c)
 	}
 }
 
-static void		handler(int signal, siginfo_t *server, void *con)
+static void	handler(int signal, siginfo_t *server, void *con)
 {
 	(void)server;
 	(void)con;
@@ -61,7 +61,7 @@ static void		handler(int signal, siginfo_t *server, void *con)
 		g_received = BIT_RECEIVED;
 }
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	struct sigaction	act;
 

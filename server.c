@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:23:02 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/06/29 19:29:38 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:35:25 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handler(int sig, siginfo_t *client, void *con)
 	kill(client->si_pid, SIGUSR1);
 }
 
-int		main(void)
+int	main(void)
 {
 	struct sigaction	act;
 
