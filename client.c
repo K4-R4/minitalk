@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/06/29 19:35:44 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/01 16:04:50 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	send_char(pid_t pid, unsigned char c)
 	mask = 0b10000000;
 	while (mask)
 	{
-		usleep(50);
 		if (mask & c)
 		{
 			if (kill(pid, SIGUSR1) < 0)
@@ -33,6 +32,7 @@ static void	send_char(pid_t pid, unsigned char c)
 				return ;
 		}
 		mask >>= 1;
+		usleep(50);
 		while (!(g_received == BIT_RECEIVED))
 			pause();
 		usleep(50);
