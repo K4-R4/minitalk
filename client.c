@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/07/02 13:44:22 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/02 13:46:29 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	initialize_sigaction(void)
 
 int	main(int argc, char **argv)
 {
-	int pid;
+	int	pid;
 
 	if (argc != 3)
 	{
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 	}
 	pid = ft_atoi(argv[1]);
 	if (ft_strlen(argv[1]) != (size_t)get_digit_count(pid, 10)
-			|| pid < 100 || 99998 < pid)
+		|| pid < 100 || 99998 < pid)
 	{
 		ft_printf("The process id is invalid\n");
 		exit(1);

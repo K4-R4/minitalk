@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:23:02 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/07/02 13:14:32 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/02 13:48:33 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	handler(int sig, siginfo_t *client, void *con)
 	{
 		if (sig == SIGUSR1)
 			c |= mask;
-			mask >>= 1;
+		mask >>= 1;
 		if (mask <= 0 && c)
 		{
 			ft_putchar_fd(c, STDOUT_FILENO);
 			mask = 0b10000000;
 			c = 0;
 		}
-			kill(client->si_pid, SIGUSR1);
+		kill(client->si_pid, SIGUSR1);
 	}
 }
 
