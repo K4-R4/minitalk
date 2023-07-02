@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/07/02 13:46:29 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/02 13:57:24 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,10 @@ static void	handler(int signal, siginfo_t *server, void *con)
 		g_received = BIT_RECEIVED;
 }
 
-static void	initialize_sigaction(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(struct sigaction));
-	act.sa_sigaction = handler;
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
-}
-
 int	main(int argc, char **argv)
 {
 	int	pid;
+	struct sigaction	act;
 
 	if (argc != 3)
 	{
@@ -89,7 +78,13 @@ int	main(int argc, char **argv)
 		ft_printf("The process id is invalid\n");
 		exit(1);
 	}
-	initialize_sigaction();
+	ft_bzero(&act, sizeof(struct sigaction));
+	act.sa_sigaction = handler;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &act, NULL);
+	sigaction(SIGUSR2, &act, NULL);
+
 	send_str((pid_t)ft_atoi(argv[1]), argv[2]);
 	return (0);
 }
