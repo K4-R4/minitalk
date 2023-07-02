@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/07/02 12:10:24 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/02 13:44:22 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	handler(int signal, siginfo_t *server, void *con)
 		g_received = BIT_RECEIVED;
 }
 
-static void	initialize_sigaction()
+static void	initialize_sigaction(void)
 {
 	struct sigaction	act;
 
