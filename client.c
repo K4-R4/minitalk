@@ -6,7 +6,7 @@
 /*   By: tkuramot <tkuramot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 19:19:49 by tkuramot          #+#    #+#             */
-/*   Updated: 2023/07/01 16:04:50 by tkuramot         ###   ########.fr       */
+/*   Updated: 2023/07/02 12:10:24 by tkuramot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,35 @@ static void	handler(int signal, siginfo_t *server, void *con)
 		g_received = BIT_RECEIVED;
 }
 
-int	main(int argc, char **argv)
+static void	initialize_sigaction()
 {
 	struct sigaction	act;
 
-	if (argc != 3)
-	{
-		ft_printf("Usage: ./client {pid} {message}\n");
-		return (0);
-	}
 	ft_bzero(&act, sizeof(struct sigaction));
 	act.sa_sigaction = handler;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
+}
+
+int	main(int argc, char **argv)
+{
+	int pid;
+
+	if (argc != 3)
+	{
+		ft_printf("Usage: ./client pid message\n");
+		exit(1);
+	}
+	pid = ft_atoi(argv[1]);
+	if (ft_strlen(argv[1]) != (size_t)get_digit_count(pid, 10)
+			|| pid < 100 || 99998 < pid)
+	{
+		ft_printf("The process id is invalid\n");
+		exit(1);
+	}
+	initialize_sigaction();
 	send_str((pid_t)ft_atoi(argv[1]), argv[2]);
 	return (0);
 }
